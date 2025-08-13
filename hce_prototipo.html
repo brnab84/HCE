@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Prototipo HCE - Historias Clínicas</title>
+<link rel="stylesheet" href="hce_prototipo.css">
+</head>
+<body >
+
+<div id="welcomeBar" class="welcome-bar" style="display:none"></div>
+
+<div id="loginScreen" class="center-screen">
+  <div class="card card-sm">
+    <h2>Iniciar sesión</h2>
+    <input id="loginUsername" placeholder="Usuario" class="input">
+    <input id="loginPassword" placeholder="Contraseña" type="password" class="input">
+    <button class="btn btn-primary" onclick="handleLogin()">Entrar</button>
+    <p id="loginError" class="text-danger" style="display:none">Usuario o contraseña incorrectos</p>
+    <div class="note">Usuarios: admin/admin123, doctor/doctor123, user/user123</div>
+  </div>
+</div>
+
+<div id="appContainer" style="display:none">
+
+  <header class="header">
+    <div class="brand"><div class="logo">HCE</div><h1>Prototipo HCE</h1></div>
+    <div class="controls">
+      <div id="currentUser" class="small"></div>
+      <button id="btnAddUser" class="btn btn-success" style="display:none" onclick="openUserModal()">Nuevo Usuario</button>
+      <button class="btn btn-danger" onclick="logoutConfirm()">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid">
+      <aside class="card">
+        <div class="flex mb-8">
+          <input id="searchInput" placeholder="Buscar por nombre / teléfono" class="search-box" oninput="renderPatients()">
+          <button class="btn btn-primary" onclick="openModal('patientAdd')">Nuevo</button>
+        </div>
+        <div class="mb-8">
+          <input id="advancedSearch" class="search-box" placeholder="Búsqueda avanzada (diagnóstico, notas, email)" oninput="renderPatients()">
+        </div>
+        <div class="filters mb-8">
+          <input type="date" id="filterDateFrom" class="input" onchange="renderAppointments()">
+          <input type="date" id="filterDateTo" class="input" onchange="renderAppointments()">
+          <select id="filterAppointmentType" class="input" onchange="renderAppointments()">
+            <option value="">Todos</option>
+            <option>Consulta</option>
+            <option>Seguimiento</option>
+            <option>Emergencia</option>
+            <option>Control</option>
+          </select>
+        </div>
+        <div id="patientList" class="list"></div>
+        <div class="mt-12 flex wrap">
+          <button class="btn" onclick="exportData()">Exportar JSON</button>
+          <label class="btn btn-primary" style="cursor:pointer">Importar JSON <input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
+          <button class="btn btn-warning" onclick="resetSystem()">Reiniciar</button>
+        </div>
+      </aside>
+
+      <section class="card" id="detailsCard">
+        <div class="flex between mb-8">
+          <h3 id="patientTitle">Seleccione un paciente</h3>
+          <div class="flex">
+            <button class="btn btn-primary" onclick="openModal('history')">+ Nuevo Registro Médico</button>
+            <button class="btn" onclick="exportPatientPDF()">PDF</button>
+          </div>
+        </div>
+
+        <div id="patientDetails" style="display:none">
+          <div class="tabs">
+            <div class="tab active" data-tab="details" onclick="switchTab(event)">Detalles</div>
+            <div class="tab" data-tab="history" onclick="switchTab(event)">Historial</div>
+            <div class="tab" data-tab="appointments" onclick="switchTab(event)">Citas</div>
+            <div class="tab" data-tab="audit" onclick="switchTab(event)">Auditoría</div>
+          </div>
+
+          <div id="tabDetails" class="tabContent">
+            <div class="row">
+              <div class="col">
+                <div class="field"><label class="label">Nombre</label><div id="pd_name" class="small"></div></div>
+                <div class="field"><label class="label">Documento</label><div id="pd_doc" class="small"></div></div>
+                <div class="field"><label class="label">Fecha de Nacimiento</label><div id="pd_dob" class="small"></div></div>
+              </div>
+              <div class="col">
+                <div class="field"><label class="label">Teléfono</label><div id="pd_phone" class="small"></div></div>
+                <div class="field"><label class="label">Email</label><div id="pd_email" class="small"></div></div>
+                <div class="field"><label class="label">Dirección</label><div id="pd_address" class="small"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:10px" class="small" id="pd_extra"></div>
+          </div>
+
+          <div id="tabHistory" class="tabContent" style="display:none">
+            <div id="medicalHistory"></div>
+          </div>
+
+          <div id="tabAppointments" class="tabContent" style="display:none">
+            <div id="appointmentsList"></div>
+            <div class="mt-8"><button class="btn btn-primary" onclick="openModal('appointment')">Nueva Cita</button></div>
+          </div>
+
+          <div id="tabAudit" class="tabContent" style="display:none">
+            <div id="auditLog"></div>
+          </div>
+        </div>
+
+        <div id="noSelection" class="empty">Seleccione un paciente para ver detalles</div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="dialog">
+    <div class="flex between mb-8">
+      <h3 id="modalTitle">Modal</h3><button class="btn" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+    <div class="footer-actions">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" id="modalSaveBtn" onclick="modalSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div id="userModal" class="modal" aria-hidden="true">
+  <div class="dialog">
+    <h3>Alta de Usuario</h3>
+    <label>Nombre:</label><input id="newName" class="input">
+    <label>Cargo:</label><input id="newRoleDesc" class="input">
+    <label>Sector:</label><input id="newSector" class="input">
+    <label>Email:</label><input id="newEmail" class="input">
+    <label>Teléfono:</label><input id="newPhone" class="input">
+    <label>Perfil:</label><select id="newProfile" class="input"><option value="admin">Admin</option><option value="doctor">Doctor</option><option value="user">Usuario</option></select>
+    <label>Usuario:</label><input id="newUsername" class="input">
+    <label>Contraseña:</label><input id="newPassword" type="password" class="input">
+    <div class="footer-actions">
+      <button class="btn" onclick="closeUserModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveNewUser()">Guardar Usuario</button>
+    </div>
+  </div>
+</div>
+
+<script src="hce_prototipo.js"></script>
+</body>
+</html>

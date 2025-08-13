@@ -1,0 +1,686 @@
+/* hce_prototipo.css - versión final mejorada */
+
+/* Variables de color */
+:root {
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --muted: #64748b;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+  --card: #ffffff;
+  --bg: #f8fafc;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #0f172a;
+  line-height: 1.5;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(90deg, var(--primary-light), var(--primary));
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  background: white;
+  color: var(--primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.brand h1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Contenedor */
+.container {
+  max-width: 1200px;
+  margin: 22px auto;
+  padding: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 18px;
+}
+
+/* Card */
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+}
+
+.card-sm {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* Botones */
+.btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-light); }
+
+.btn-danger { background: var(--danger); color: white; }
+.btn-danger:hover { filter: brightness(1.1); }
+
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { filter: brightness(1.1); }
+
+.btn-warning { background: var(--warning); color: white; }
+.btn-warning:hover { filter: brightness(1.1); }
+
+/* Inputs */
+.input, textarea, select, .search-box {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus, textarea:focus, select:focus, .search-box:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+  outline: none;
+}
+
+/* Lista de pacientes */
+.patient-item {
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.patient-item::before {
+  content: attr(data-initials);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.patient-item:hover {
+  background: #f1f5f9;
+}
+
+.patient-item.selected {
+  background: linear-gradient(90deg, #eff6ff, #dbeafe);
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(37,99,235,0.1);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tab {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background: #f1f5f9;
+}
+
+.tab.active {
+  background: linear-gradient(90deg, #eff6ff, #dbeafe);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.5);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal .dialog {
+  width: 95%;
+  max-width: 900px;
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* Empty state */
+.empty {
+  padding: 40px;
+  text-align: center;
+  color: var(--muted);
+  background: linear-gradient(90deg, #fff, #f8fafc);
+  border-radius: 8px;
+}
+
+/* Login centrado */
+.center-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc, #eff6ff);
+}
+
+.center-screen .card-sm {
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  background: white;
+}
+
+.center-screen h2 {
+  margin-bottom: 16px;
+  color: var(--primary);
+  text-align: center;
+}
+
+.center-screen .input {
+  margin-bottom: 12px;
+}
+
+.center-screen .btn {
+  width: 100%;
+  font-size: 15px;
+}
+
+.center-screen .note {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+/* Responsive */
+@media(max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .controls { flex-wrap: wrap; }
+  .tabs { overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+}
+
+/* ==== Ajustes extra de estilo ==== */
+
+/* Tipografía y títulos */
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Lista de pacientes: scroll refinado */
+.list {
+  max-height: 60vh;
+  overflow: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-light) transparent;
+}
+
+.list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: var(--primary-light);
+  border-radius: 4px;
+}
+
+/* Tabs activas más marcadas */
+.tab.active {
+  background: linear-gradient(90deg, #eff6ff, #dbeafe);
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.1);
+  transition: all 0.25s ease;
+}
+
+/* Hover tabs */
+.tab:hover {
+  background: #f1f5f9;
+  color: var(--primary);
+}
+
+/* Campos de formulario más aireados */
+.field {
+  margin-bottom: 14px;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Encabezados de modal */
+.modal .dialog h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 6px;
+}
+
+/* Botón cerrar modal */
+.modal .dialog .btn {
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.modal .dialog .btn:hover {
+  background: #f1f5f9;
+  color: var(--primary);
+}
+
+/* Inputs más cómodos en modal */
+.modal .dialog .input {
+  margin-bottom: 10px;
+}
+
+/* Botón guardar modal más visible */
+.footer-actions .btn-primary {
+  min-width: 120px;
+  font-weight: 500;
+}
+
+
+
+/* ==== Tema oscuro ==== */
+body.dark {
+  --primary: #3b82f6;
+  --primary-light: #60a5fa;
+  --muted: #94a3b8;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #fbbf24;
+  --card: #1e293b;
+  --bg: #0f172a;
+  color: #f1f5f9;
+}
+
+/* Ajuste general para fondo y textos en modo oscuro */
+body.dark {
+  background: var(--bg);
+}
+
+/* Header oscuro */
+body.dark .header {
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  color: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+body.dark .logo {
+  background: var(--card);
+  color: var(--primary);
+}
+
+/* Tarjetas */
+body.dark .card,
+body.dark .card-sm {
+  background: var(--card);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Botones */
+body.dark .btn {
+  color: inherit;
+}
+
+body.dark .btn-primary { background: var(--primary); color: white; }
+body.dark .btn-primary:hover { background: var(--primary-light); }
+
+body.dark .btn-danger { background: var(--danger); color: white; }
+body.dark .btn-success { background: var(--success); color: white; }
+body.dark .btn-warning { background: var(--warning); color: white; }
+
+/* Inputs y select */
+body.dark .input,
+body.dark textarea,
+body.dark select,
+body.dark .search-box {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #f1f5f9;
+}
+
+body.dark .input:focus,
+body.dark textarea:focus,
+body.dark select:focus,
+body.dark .search-box:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(96,165,250,0.3);
+}
+
+/* Lista de pacientes */
+body.dark .patient-item {
+  background: var(--card);
+  border: 1px solid #334155;
+}
+
+body.dark .patient-item:hover {
+  background: #1e293b;
+}
+
+body.dark .patient-item.selected {
+  background: linear-gradient(90deg, #1e293b, #0f172a);
+  border-color: var(--primary);
+}
+
+/* Tabs */
+body.dark .tab {
+  border: 1px solid transparent;
+  color: var(--muted);
+}
+
+body.dark .tab:hover {
+  background: #1e293b;
+  color: var(--primary-light);
+}
+
+body.dark .tab.active {
+  background: linear-gradient(90deg, #1e293b, #0f172a);
+  border-color: var(--primary-light);
+  color: var(--primary-light);
+}
+
+/* Modales */
+body.dark .modal .dialog {
+  background: var(--card);
+  color: #f1f5f9;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+body.dark .modal .dialog h3 {
+  color: var(--primary-light);
+  border-bottom-color: #334155;
+}
+
+body.dark .modal .dialog .btn {
+  color: var(--muted);
+}
+
+body.dark .modal .dialog .btn:hover {
+  background: #1e293b;
+  color: var(--primary-light);
+}
+
+/* Estado vacío */
+body.dark .empty {
+  background: linear-gradient(90deg, #1e293b, #0f172a);
+  color: var(--muted);
+}
+
+
+/* ==== Mejoras de interacción y microanimaciones ==== */
+
+/* Animación al abrir modales */
+.modal[aria-hidden="false"] .dialog {
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Click feedback en botones */
+.btn:active {
+  transform: scale(0.97);
+  box-shadow: none;
+}
+
+/* Hover más notorio en pacientes */
+.patient-item:hover {
+  background: #e0e7ff;
+  border-color: var(--primary-light);
+  transform: translateX(2px);
+}
+
+/* Inputs con íconos opcionales */
+.input.icon-left,
+.search-box.icon-left {
+  padding-left: 36px;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+}
+
+.input.icon-search {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%2364748b" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387-1.414 1.414-4.387-4.387zM8 14a6 6 0 100-12 6 6 0 000 12z"/></svg>');
+}
+
+.input.icon-calendar {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%2364748b" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM18 9H2v7a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg>');
+}
+
+
+/* ====== MEJORA MODAL REGISTRO MÉDICO ====== */
+
+/* Estructura del modal: header fijo + contenido scroll + footer pegado */
+.modal .dialog{
+  display: flex;
+  flex-direction: column;
+  overflow: auto;          /* permite scroll interno */
+  padding: 0;              /* manejamos padding por secciones */
+}
+
+.modal .dialog > .flex.mb-8{ /* header del modal */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 14px 16px;
+  background: linear-gradient(180deg,#ffffff 80%, rgba(255,255,255,0.8));
+  border-bottom: 1px solid #e2e8f0;
+}
+
+#modalBody{
+  padding: 16px;
+  flex: 1;                 /* ocupa el alto disponible */
+  min-height: 180px;       /* evita que el footer suba demasiado en modales cortos */
+}
+
+/* Footer con acciones pegado abajo, con fondo y sombra sutil */
+.footer-actions{
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 12px 16px;
+  background: linear-gradient(0deg,#ffffff 80%, rgba(255,255,255,0.8));
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 -4px 16px rgba(2,6,23,0.06);
+}
+
+/* Botones del modal más consistentes y accesibles */
+.footer-actions .btn{
+  min-height: 40px;
+  padding: 10px 16px;
+  font-weight: 500;
+}
+
+.footer-actions .btn:first-child{         /* Cancelar como “secundario/outline” */
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid #e2e8f0;
+}
+.footer-actions .btn:first-child:hover{
+  background: #f1f5f9;
+  color: var(--primary);
+}
+
+/* Botón Guardar destacado a la derecha */
+.footer-actions .btn-primary{
+  min-width: 130px;
+}
+
+/* En móviles, botones a ancho completo en 2 filas */
+@media (max-width: 480px){
+  .footer-actions{
+    flex-direction: column-reverse;
+  }
+  .footer-actions .btn,
+  .footer-actions .btn-primary{
+    width: 100%;
+  }
+}
+
+/* ====== DATOS DE PACIENTE MÁS CLAROS ====== */
+
+/* En el panel Detalles (fuera del modal): valores como “chips” legibles */
+#tabDetails .field .small{
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #0f172a;
+}
+
+/* Etiquetas con un poco más de jerarquía */
+#tabDetails .label{
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Información extra del paciente */
+#pd_extra{
+  margin-top: 10px;
+  padding: 10px;
+  background: linear-gradient(90deg,#ffffff,#f8fafc);
+  border: 1px dashed #e2e8f0;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ====== (Opcional) Resumen del paciente dentro del modal, si lo agregás por JS ======
+   Si en #modalBody inyectás un bloque con clase .patient-summary,
+   esto ya lo deja con buen estilo sin tocar HTML. */
+.patient-summary{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+.patient-summary .avatar{
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--primary-light); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px;
+}
+.patient-summary .name{
+  font-weight: 600; color: #0f172a; line-height: 1.1;
+}
+.patient-summary .meta{
+  color: var(--muted); font-size: 12px;
+}
